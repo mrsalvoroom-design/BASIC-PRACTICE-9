@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basic Grammar Quiz - SALVO GROUP (Stable Version)</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+
+<style>
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg,#f3e8ff,#ede9fe);
+    margin: 0;
+    padding: 0;
+}
+
+.quiz-container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.header {
+    background: linear-gradient(135deg,#7c3aed,#a855f7);
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.score-panel {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background: #faf5ff;
+    font-weight: bold;
+    flex-wrap: wrap;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: #ddd;
+}
+
+#progressFill {
+    height: 10px;
+    width: 0%;
+    background: linear-gradient(90deg,#7c3aed,#a855f7);
+    transition: width 0.3s ease;
+}
+
+.timer {
+    font-size: 18px;
+    color: #7c3aed;
+}
+
+.question {
+    padding: 25px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.option {
+    margin: 10px 25px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.option:hover {
+    background: #f3e8ff;
+}
+
+.correct {
+    background: #d1fae5;
+    border-color: green;
+}
+
+.wrong {
+    background: #fee2e2;
+    border-color: red;
+    animation: shake 0.4s;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(135deg,#7c3aed,#a855f7);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.number-nav {
+    padding: 10px;
+    text-align: center;
+}
+
+.number-nav button {
+    margin: 4px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+
+.number-nav .answered {
+    background: #22c55e;
+}
+
+.number-nav .active {
+    background: #111827;
+}
+
+.result {
+    text-align: center;
+    padding: 30px;
+    display: none;
+}
+
+.grade {
+    font-size: 28px;
+    font-weight: bold;
+    color: #7c3aed;
+}
+
+.explanation {
+    background: #fef9c3;
+    padding: 15px;
+    margin: 15px 25px;
+    border-left: 5px solid orange;
+    border-radius: 10px;
+}
+
+.restart-btn {
+    margin-top: 20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="quiz-container">
+
+<div class="header">
+<h1><i class="fas fa-graduation-cap"></i> ADVANCED GRAMMAR QUIZ</h1>
+<p>SALVO GROUP Interactive Quiz System - Stable Build</p>
+</div>
+
+<div class="score-panel">
+<div>Score: <span id="score">0</span></div>
+<div class="timer">Time: <span id="timer">10:00</span></div>
+</div>
+
+<div class="progress-bar">
+<div id="progressFill"></div>
+</div>
+
+<div id="quizArea"></div>
+
+<div class="number-nav" id="numberNav"></div>
+
+<div class="navigation">
+<button id="prevBtn">Previous</button>
+<button id="nextBtn">Next</button>
+<button id="submitBtn">Submit</button>
+</div>
+
+<div class="result" id="resultBox">
+<h2>Quiz Complete</h2>
+<div id="finalScore"></div>
+<div class="grade" id="grade"></div>
+<button class="restart-btn" onclick="restartQuiz()">Restart Quiz</button>
+</div>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+text: "How ________ water do you drink every day?",
+options: ["much","many","a few","several"],
+correct: 0,
+explanation: "Water adalah uncountable noun sehingga menggunakan 'much'. Many digunakan untuk countable noun."
+},
+
+{
+text: "How ________ books do you read every month?",
+options: ["many","much","little","less"],
+correct: 0,
+explanation: "Books adalah countable noun (bisa dihitung) sehingga menggunakan 'many'."
+},
+
+{
+text: "There is very ________ sugar in my coffee.",
+options: ["little","few","many","several"],
+correct: 0,
+explanation: "Sugar adalah uncountable noun sehingga menggunakan 'little'."
+},
+
+{
+text: "There are only a ________ students in the classroom today.",
+options: ["few","little","much","less"],
+correct: 0,
+explanation: "Students adalah countable noun sehingga menggunakan 'few'."
+},
+
+{
+text: "I have ________ homework to finish tonight.",
+options: ["a lot of","many","few","several"],
+correct: 0,
+explanation: "Homework adalah uncountable noun sehingga cocok menggunakan 'a lot of'."
+},
+
+{
+text: "She bought ________ apples from the market.",
+options: ["several","much","little","less"],
+correct: 0,
+explanation: "Apples adalah countable noun plural sehingga cocok menggunakan 'several'."
+},
+
+{
+text: "We don’t have ________ information about the meeting.",
+options: ["much","many","few","several"],
+correct: 0,
+explanation: "Information adalah uncountable noun sehingga menggunakan 'much'."
+},
+
+{
+text: "There are too ________ mistakes in your essay.",
+options: ["many","much","little","less"],
+correct: 0,
+explanation: "Mistakes adalah countable noun plural sehingga menggunakan 'many'."
+},
+
+{
+text: "He has only a ________ money left in his wallet.",
+options: ["little","few","many","several"],
+correct: 0,
+explanation: "Money adalah uncountable noun sehingga menggunakan 'little'."
+},
+
+{
+text: "She has a ________ friends in Jakarta.",
+options: ["few","little","much","less"],
+correct: 0,
+explanation: "Friends adalah countable noun plural sehingga menggunakan 'few'."
+},
+
+{
+text: "There is ________ milk in the fridge.",
+options: ["some","many","few","several"],
+correct: 0,
+explanation: "Milk adalah uncountable noun sehingga menggunakan 'some'."
+},
+
+{
+text: "There are ________ chairs in the meeting room.",
+options: ["some","much","little","less"],
+correct: 0,
+explanation: "Chairs adalah countable noun plural sehingga menggunakan 'some'."
+},
+
+{
+text: "Only a small ________ of students passed the exam.",
+options: ["number","amount","little","much"],
+correct: 0,
+explanation: "Students adalah countable noun sehingga menggunakan 'a number of'."
+},
+
+{
+text: "A large ________ of water was wasted yesterday.",
+options: ["amount","number","many","few"],
+correct: 0,
+explanation: "Water adalah uncountable noun sehingga menggunakan 'amount of'."
+},
+
+{
+text: "There are plenty ________ opportunities to learn English online.",
+options: ["of","for","with","at"],
+correct: 0,
+explanation: "Struktur yang benar adalah 'plenty of' untuk menunjukkan jumlah banyak."
+},
+
+{
+text: "She gave me a piece ________ advice.",
+options: ["of","to","with","for"],
+correct: 0,
+explanation: "Advice adalah uncountable noun sehingga menggunakan unit expression: a piece of advice."
+},
+
+{
+text: "I need a bottle ________ water.",
+options: ["of","to","with","for"],
+correct: 0,
+explanation: "Water adalah uncountable noun sehingga menggunakan measure expression: bottle of water."
+},
+
+{
+text: "There isn’t ________ time left before the exam starts.",
+options: ["much","many","few","several"],
+correct: 0,
+explanation: "Time adalah uncountable noun sehingga menggunakan 'much'."
+},
+
+{
+text: "He made very ________ errors in his report.",
+options: ["few","little","much","less"],
+correct: 0,
+explanation: "Errors adalah countable noun plural sehingga menggunakan 'few'."
+},
+
+{
+text: "She has too ________ luggage to carry alone.",
+options: ["much","many","few","several"],
+correct: 0,
+explanation: "Luggage adalah uncountable noun sehingga menggunakan 'much'."
+}
+
+];
+
+let current = 0;
+let answers = new Array(questions.length).fill(null);
+let quizSubmitted = false;
+
+function renderQuestion() {
+
+const q = questions[current];
+
+let html = `<div class="question">${q.text}</div>`;
+
+q.options.forEach((opt,i)=>{
+
+let className = "option";
+
+if(answers[current]!==null){
+
+if(i===q.correct) className += " correct";
+
+if(i===answers[current] && i!==q.correct)
+className += " wrong";
+
+}
+
+html += `
+<div class="${className}" onclick="selectAnswer(${i})">
+${String.fromCharCode(65+i)}. ${opt}
+</div>`;
+
+});
+
+if(answers[current]!==null){
+
+html += `
+<div class="explanation">
+${q.explanation}
+</div>`;
+
+}
+
+document.getElementById("quizArea").innerHTML = html;
+
+updateProgress();
+updateNumberNav();
+updateNavButtons();
+
+}
+
+function selectAnswer(i){
+
+if(answers[current]!==null || quizSubmitted) return;
+
+answers[current] = i;
+
+if(i===questions[current].correct){
+
+burstConfetti();
+playSound();
+
+}
+
+updateScore();
+renderQuestion();
+
+}
+
+function updateScore(){
+
+let score = 0;
+
+answers.forEach((a,i)=>{
+
+if(a===questions[i].correct)
+score++;
+
+});
+
+
+document.getElementById("score").innerText = score;
+
+}
+
+function updateProgress(){
+
+let answered = answers.filter(a=>a!==null).length;
+
+let percent = (answered/questions.length)*100;
+
+
+document.getElementById("progressFill").style.width = percent+"%";
+
+}
+
+function updateNumberNav(){
+
+let nav="";
+
+for(let i=0;i<questions.length;i++){
+
+let cls="";
+
+if(answers[i]!==null)
+cls += "answered ";
+
+if(i===current)
+cls += "active";
+
+nav += `<button class="${cls}" onclick="goTo(${i})">${i+1}</button>`;
+
+}
+
+
+document.getElementById("numberNav").innerHTML = nav;
+
+}
+
+function updateNavButtons(){
+
+
+document.getElementById("prevBtn").disabled = current===0;
+
+
+document.getElementById("nextBtn").disabled = current===questions.length-1;
+
+}
+
+function goTo(i){
+
+current=i;
+renderQuestion();
+
+}
+
+
+document.getElementById("nextBtn").onclick=()=>{
+
+if(current<questions.length-1){
+current++;
+renderQuestion();
+}
+
+};
+
+
+document.getElementById("prevBtn").onclick=()=>{
+
+if(current>0){
+current--;
+renderQuestion();
+}
+
+};
+
+function burstConfetti(){
+
+if (typeof confetti === "function") {
+
+confetti({
+particleCount:150,
+spread:80,
+origin:{y:0.6}
+});
+
+}
+
+}
+
+function playSound(){
+
+try{
+const audio = new Audio("https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg");
+audio.play();
+}catch(e){
+console.log("Sound blocked");
+}
+
+}
+
+let timeLeft = 600;
+
+const timerInterval = setInterval(()=>{
+
+if(quizSubmitted) return;
+
+let minutes = Math.floor(timeLeft/60);
+let seconds = timeLeft%60;
+
+
+document.getElementById("timer").innerText =
+`${minutes}:${seconds.toString().padStart(2,'0')}`;
+
+if(timeLeft<=0){
+submitQuiz();
+}
+
+if(timeLeft>0){
+timeLeft--;
+}
+
+},1000);
+
+function submitQuiz(){
+
+if(quizSubmitted) return;
+
+quizSubmitted = true;
+
+clearInterval(timerInterval);
+
+let score = answers.filter((a,i)=>a===questions[i].correct).length;
+
+let percent = Math.round((score/questions.length)*100);
+
+let grade="";
+
+if(percent>=90) grade="A";
+else if(percent>=80) grade="B";
+else if(percent>=70) grade="C";
+else if(percent>=60) grade="D";
+else grade="E";
+
+
+document.getElementById("resultBox").style.display="block";
+
+
+document.getElementById("finalScore").innerText =
+`Score: ${score}/${questions.length} (${percent}%)`;
+
+
+document.getElementById("grade").innerText =
+`Grade: ${grade}`;
+
+burstConfetti();
+
+}
+
+
+document.getElementById("submitBtn").onclick=submitQuiz;
+
+function restartQuiz(){
+
+location.reload();
+
+}
+
+renderQuestion();
+
+</script>
+
+</body>
+</html>
