@@ -1,486 +1,623 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Advanced Grammar Quiz - SALVO GROUP</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Salvo Group | Grammar Basic Part 9 - Adjectives & Adverbs</title>
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f8f9ff 0%, #f0f2fe 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+        }
 
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+        .quiz-container {
+            max-width: 1100px;
+            width: 100%;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(2px);
+            border-radius: 3rem;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.2), 0 2px 10px rgba(0,0,0,0.02);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
 
-<style>
+        .hero {
+            background: linear-gradient(135deg, #FFFFFF 0%, #F3E8FF 100%);
+            padding: 1.8rem 2rem;
+            border-bottom: 1px solid rgba(128, 90, 213, 0.2);
+        }
 
-body{
-font-family:'Segoe UI',sans-serif;
-background:linear-gradient(135deg,#ede9fe,#f5f3ff);
-margin:0;
-}
+        .hero h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(120deg, #5E3A9C, #9B6BFF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-/* container */
+        .hero h1 i {
+            background: none;
+            color: #8B5CF6;
+            font-size: 2rem;
+        }
 
-.quiz-container{
-max-width:900px;
-margin:auto;
-background:white;
-border-radius:20px;
-overflow:hidden;
-box-shadow:0 25px 45px rgba(0,0,0,.12);
-}
+        .sub {
+            color: #4a3b6e;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
 
-/* header */
+        .score-panel {
+            background: white;
+            margin: 0 1.8rem 1rem 1.8rem;
+            border-radius: 60px;
+            padding: 0.5rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 6px 14px rgba(106, 46, 176, 0.08);
+            border: 1px solid rgba(156, 107, 255, 0.3);
+        }
 
-.header{
-background:linear-gradient(135deg,#7c3aed,#9333ea);
-color:white;
-padding:25px;
-text-align:center;
-}
+        .score-box {
+            background: #f1ebff;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-weight: 700;
+            color: #5a2d9c;
+        }
 
-/* score panel */
+        .score-box span {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #6c2bd9;
+        }
 
-.score-panel{
-display:flex;
-justify-content:space-between;
-padding:15px;
-background:#faf5ff;
-font-weight:bold;
-}
+        .progress-indicator {
+            font-weight: 500;
+            background: #ede8ff;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            color: #4f359b;
+        }
 
-.timer{
-color:#7c3aed;
-}
+        .quiz-card {
+            padding: 1.8rem 2rem 2rem 2rem;
+        }
 
-/* progress bar */
+        .question-text {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #1E1A3E;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+            background: #F9F6FF;
+            padding: 1rem 1.5rem;
+            border-radius: 2rem;
+            border-left: 8px solid #9B6BFF;
+        }
 
-.progress-bar{
-height:8px;
-background:#eee;
-}
+        .question-translation {
+            font-size: 0.95rem;
+            color: #6b5b8e;
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            font-style: normal;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #FCF9FF;
+            padding: 0.7rem 1.5rem;
+            border-radius: 1rem;
+            border-left: 3px solid #cbbaff;
+        }
 
-#progressFill{
-height:8px;
-width:0%;
-background:linear-gradient(90deg,#7c3aed,#9333ea);
-transition:.3s;
-}
+        .question-translation i {
+            color: #9B6BFF;
+            font-size: 1rem;
+        }
 
-/* question */
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
 
-.question{
-padding:25px;
-font-size:22px;
-font-weight:600;
-}
+        .option-btn {
+            background: white;
+            border: 1.5px solid #E2D6FF;
+            border-radius: 1.2rem;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #2d2a4a;
+        }
 
-/* options */
+        .option-btn:hover:not(:disabled) {
+            background: #F5EFFF;
+            border-color: #9B6BFF;
+            transform: translateX(6px);
+        }
 
-.option{
-margin:12px 25px;
-padding:14px;
-border-radius:12px;
-border:1px solid #ddd;
-cursor:pointer;
-transition:.2s;
-}
+        .prefix {
+            font-weight: 800;
+            background: #ede4ff;
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: #6c2bd9;
+        }
 
-.option:hover{
-background:#f3e8ff;
-transform:scale(1.02);
-}
+        .feedback-area {
+            background: #F8F4FF;
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.5rem;
+            margin: 1rem 0 1.5rem;
+            border-left: 6px solid #9B6BFF;
+            transition: all 0.2s;
+        }
 
-.correct{
-background:#dcfce7;
-border-color:#22c55e;
-}
+        .feedback-correct {
+            background: #E6F9ED;
+            border-left-color: #2b9348;
+        }
 
-.wrong{
-background:#fee2e2;
-border-color:#ef4444;
-}
+        .feedback-wrong {
+            background: #FFEFEF;
+            border-left-color: #e63946;
+        }
 
-/* explanation */
+        .feedback-neutral {
+            background: #F4F0FE;
+            border-left-color: #bdc3e0;
+        }
 
-.explanation{
-background:#fff7ed;
-margin:20px 25px;
-padding:15px;
-border-left:5px solid orange;
-border-radius:10px;
-}
+        .feedback-text {
+            font-weight: 500;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
 
-/* navigation buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            gap: 1rem;
+        }
 
-.navigation{
-display:flex;
-justify-content:space-between;
-padding:20px;
-}
+        .nav-btn {
+            background: white;
+            border: none;
+            padding: 0.8rem 1.6rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border: 1px solid #ddd;
+        }
 
-button{
-padding:10px 18px;
-border:none;
-border-radius:30px;
-background:linear-gradient(135deg,#7c3aed,#9333ea);
-color:white;
-cursor:pointer;
-font-weight:bold;
-}
+        .nav-btn-primary {
+            background: linear-gradient(95deg, #7C3AED, #A78BFA);
+            color: white;
+            border: none;
+            box-shadow: 0 6px 14px rgba(124, 58, 237, 0.3);
+        }
 
-button:disabled{
-opacity:.4;
-cursor:not-allowed;
-}
+        .nav-btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            filter: brightness(1.02);
+        }
 
-/* question numbers */
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
-.number-nav{
-text-align:center;
-padding:15px;
-}
+        .result-area {
+            background: white;
+            border-radius: 2rem;
+            margin: 1rem 1.8rem 1.8rem 1.8rem;
+            padding: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            border-top: 2px solid #cbbaff;
+        }
 
-.number-nav button{
-width:36px;
-height:36px;
-border-radius:50%;
-margin:4px;
-}
+        .weakness-tag {
+            background: #ede8ff;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin: 0.2rem;
+        }
 
-.active{
-background:#111827 !important;
-}
-
-.answered{
-background:#22c55e !important;
-}
-
-/* result */
-
-.result{
-display:none;
-text-align:center;
-padding:40px;
-}
-
-.grade{
-font-size:30px;
-font-weight:bold;
-color:#7c3aed;
-}
-
-</style>
+        @media (max-width: 680px) {
+            .quiz-card {
+                padding: 1rem;
+            }
+            .question-text {
+                font-size: 1.3rem;
+            }
+            .hero h1 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
+<div class="quiz-container" id="quizApp">
+    <div class="hero">
+        <h1><i class="fas fa-gem"></i> SALVO GROUP <br> GRAMMAR BASIC PART 1</h1>
+        <div class="sub">✨ Adjectives, Adverbs & Order of Adjectives — instant feedback & smart scoring</div>
+    </div>
 
-<div class="quiz-container">
+    <div class="score-panel">
+        <div class="score-box"><i class="fas fa-star-of-life"></i> SCORE : <span id="scoreValue">0</span> / <span id="totalQuestions">0</span></div>
+        <div class="progress-indicator"><i class="fas fa-question-circle"></i> Soal <span id="currentIdxDisplay">1</span> dari <span id="totalDisplay">0</span></div>
+    </div>
 
-<div class="header">
-<h1><i class="fas fa-graduation-cap"></i> ADVANCED GRAMMAR QUIZ</h1>
-<p>SALVO GROUP Interactive Quiz</p>
-</div>
+    <div class="quiz-card" id="quizCard">
+        <div class="question-text" id="questionText">Loading...</div>
+        <div class="question-translation" id="questionTranslation"></div>
+        <div class="options-grid" id="optionsContainer"></div>
+        <div id="feedbackArea" class="feedback-area feedback-neutral">
+            <div class="feedback-text"><i class="fas fa-lightbulb"></i> Pilih salah satu jawaban untuk melihat pembahasan & kunci.</div>
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-arrow-left"></i> Sebelumnya</button>
+            <button class="nav-btn nav-btn-primary" id="nextBtn" disabled><i class="fas fa-arrow-right"></i> Selanjutnya</button>
+        </div>
+    </div>
 
-<div class="score-panel">
-<div>Score: <span id="score">0</span></div>
-<div class="timer">Time: <span id="timer">10:00</span></div>
-</div>
-
-<div class="progress-bar">
-<div id="progressFill"></div>
-</div>
-
-<div id="quizArea"></div>
-
-<div class="number-nav" id="numberNav"></div>
-
-<div class="navigation">
-<button id="prevBtn">Previous</button>
-<button id="nextBtn">Next</button>
-<button id="submitBtn">Submit</button>
-</div>
-
-<div class="result" id="resultBox">
-<h2>Quiz Complete 🎉</h2>
-<div id="finalScore"></div>
-<div class="grade" id="grade"></div>
-<br>
-<button onclick="restartQuiz()">Restart</button>
-</div>
-
+    <div id="resultArea" class="result-area" style="display: none;"></div>
 </div>
 
 <script>
-
-/* ================= QUESTIONS ================= */
-
-const questions = [
-
-{
-text:"You can sit ______ that chair. Nobody is sitting there",
-options:["on","in","at","over"],
-correct:0,
-explanation:"Gunakan 'on' karena kursi adalah permukaan → sit on the chair"
-},
-
-{
-text:"The police car came first. The president was in the car ______ it.",
-options:["behind","under","inside","between"],
-correct:0,
-explanation:"Behind berarti di belakang kendaraan lain"
-},
-
-{
-text:"The wine is ______ the bottle.",
-options:["in","on","at","over"],
-correct:0,
-explanation:"Gunakan 'in the bottle'"
-},
-
-{
-text:"Pass me the dictionary, it's ______ the bookshelf.",
-options:["on","in","under","between"],
-correct:0,
-explanation:"Gunakan 'on the bookshelf'"
-},
-
-{
-text:"Jessica is ______ work.",
-options:["at","in","on","inside"],
-correct:0,
-explanation:"Gunakan 'at work'"
-}
-
-];
-
-/* ================= STATE ================= */
-
-let current = 0;
-let answers = new Array(questions.length).fill(null);
-let submitted = false;
-
-/* ================= ELEMENT CACHE ================= */
-
-const quizArea = document.getElementById("quizArea");
-const progressFill = document.getElementById("progressFill");
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
-const submitBtn = document.getElementById("submitBtn");
-const numberNav = document.getElementById("numberNav");
-const scoreDisplay = document.getElementById("score");
-const timerDisplay = document.getElementById("timer");
-const resultBox = document.getElementById("resultBox");
-const finalScore = document.getElementById("finalScore");
-const gradeBox = document.getElementById("grade");
-
-/* ================= RENDER ================= */
-
-function renderQuestion(){
-
-const q = questions[current];
-
-let html = `<div class="question">${q.text}</div>`;
-
-q.options.forEach((opt,i)=>{
-
-let cls="option";
-
-if(answers[current]!==null){
-
-if(i===q.correct) cls+=" correct";
-
-if(i===answers[current] && i!==q.correct)
-cls+=" wrong";
-
-}
-
-html+=`
-<div class="${cls}" data-index="${i}">
-${String.fromCharCode(65+i)}. ${opt}
-</div>`;
-
-});
-
-if(answers[current]!==null){
-
-html+=`
-<div class="explanation">
-💡 Penjelasan: ${q.explanation}
-</div>`;
-
-}
-
-quizArea.innerHTML = html;
-
-/* CLICK FIX */
-
-document.querySelectorAll(".option").forEach(el=>{
-el.addEventListener("click",()=>{
-selectAnswer(parseInt(el.dataset.index));
-});
-});
-
-updateProgress();
-updateNumberNav();
-updateNavButtons();
-
-}
-
-/* ================= ANSWER ================= */
-
-function selectAnswer(i){
-
-if(answers[current]!==null || submitted) return;
-
-answers[current]=i;
-
-/* confetti safe */
-
-if(i===questions[current].correct){
-
-if(typeof confetti==="function"){
-confetti({
-particleCount:120,
-spread:80,
-origin:{y:.6}
-});
-}
-
-}
-
-updateScore();
-
-setTimeout(renderQuestion,200);
-
-}
-
-/* ================= SCORE ================= */
-
-function updateScore(){
-
-let score=0;
-
-answers.forEach((a,i)=>{
-if(a===questions[i].correct) score++;
-});
-
-scoreDisplay.innerText=score;
-
-}
-
-/* ================= PROGRESS ================= */
-
-function updateProgress(){
-
-let done=answers.filter(a=>a!==null).length;
-
-progressFill.style.width=
-(done/questions.length*100)+"%";
-
-}
-
-/* ================= NAVIGATION ================= */
-
-function updateNavButtons(){
-
-prevBtn.disabled=current===0;
-nextBtn.disabled=current===questions.length-1;
-
-}
-
-function updateNumberNav(){
-
-let html="";
-
-for(let i=0;i<questions.length;i++){
-
-let cls="";
-
-if(answers[i]!==null) cls+="answered ";
-
-if(i===current) cls+="active";
-
-html+=`<button class="${cls}" onclick="goTo(${i})">${i+1}</button>`;
-
-}
-
-numberNav.innerHTML=html;
-
-}
-
-function goTo(i){
-
-current=i;
-renderQuestion();
-
-}
-
-/* ================= TIMER ================= */
-
-let timeLeft=600;
-
-const timerInterval=setInterval(()=>{
-
-if(submitted) return;
-
-let m=Math.floor(timeLeft/60);
-let s=timeLeft%60;
-
-timerDisplay.innerText=
-`${m}:${s.toString().padStart(2,'0')}`;
-
-if(timeLeft<=0) submitQuiz();
-
-timeLeft--;
-
-},1000);
-
-/* ================= SUBMIT ================= */
-
-submitBtn.onclick=submitQuiz;
-
-function submitQuiz(){
-
-submitted=true;
-
-clearInterval(timerInterval);
-
-let score=answers.filter((a,i)=>a===questions[i].correct).length;
-
-let percent=Math.round(score/questions.length*100);
-
-let grade="E";
-
-if(percent>=90) grade="A";
-else if(percent>=80) grade="B";
-else if(percent>=70) grade="C";
-else if(percent>=60) grade="D";
-
-resultBox.style.display="block";
-
-finalScore.innerText=
-`Score ${score}/${questions.length} (${percent}%)`;
-
-gradeBox.innerText=
-`Grade ${grade}`;
-
-if(typeof confetti==="function") confetti();
-
-}
-
-/* ================= RESTART ================= */
-
-function restartQuiz(){
-
-location.reload();
-
-}
-
-/* ================= INIT ================= */
-
-renderQuestion();
-
+    // ==================== SOAL ADJECTIVES & ADVERBS (20 SOAL) ====================
+    const questionsData = [
+        { q: "The driver of the car was __________ Injured", o: ["Serious (Adj)", "Seriously (Adv)"], correct: 1, translation: "🌐 Pengemudi mobil itu terluka parah", explanation: "Setelah verb 'was', kita menggunakan adverb 'seriously' untuk menerangkan kata kerja 'injured'. Adverb menerangkan verb." },
+        { q: "The driver of the car had ______ Injuries", o: ["Serious (Adj)", "Seriously (Adv)"], correct: 0, translation: "🌐 Pengemudi mobil itu mengalami luka serius", explanation: "'Injuries' adalah noun, sehingga membutuhkan adjective 'serious' untuk menerangkannya." },
+        { q: "I think you have behaved Very __________", o: ["Selfishly (Adv)", "Selfish (Adj)"], correct: 0, translation: "🌐 Saya pikir kamu telah berperilaku sangat egois", explanation: "Setelah verb 'behaved', kita menggunakan adverb 'selfishly' untuk menerangkan cara berperilaku." },
+        { q: "Mona is _________ upset about losing her job", o: ["Terribly (adv)", "Terrible (adj)"], correct: 0, translation: "🌐 Mona sangat kesal karena kehilangan pekerjaannya", explanation: "'Upset' adalah adjective, sehingga membutuhkan adverb 'terribly' untuk menerangkan tingkat kekesalan." },
+        { q: "Everybody at the party was __________ dressed", o: ["Colourfull (adj)", "Colourfully (adv)"], correct: 1, translation: "🌐 Semua orang di pesta berpakaian warna-warni", explanation: "'Dressed' adalah verb (past participle), membutuhkan adverb 'colourfully' untuk menerangkan cara berpakaian." },
+        { q: "Widya likes wearing ________ Clothes", o: ["Colourfull (adj)", "Colourfully (adv)"], correct: 0, translation: "🌐 Widya suka memakai pakaian warna-warni", explanation: "'Clothes' adalah noun, sehingga membutuhkan adjective 'colourful' untuk menerangkannya." },
+        { q: "He is a very ___ man.", o: ["Tall", "Taller", "Tallest"], correct: 0, translation: "🌐 Dia adalah pria yang sangat tinggi", explanation: "Setelah 'very' kita menggunakan adjective positive degree (tall), bukan comparative atau superlative." },
+        { q: "He looked at me _______ when interrupted my statements.", o: ["Angry (adj)", "Angrily (adv)"], correct: 1, translation: "🌐 Dia menatapku dengan marah ketika menyela pernyataanku", explanation: "'Looked at' adalah verb, membutuhkan adverb 'angrily' untuk menerangkan cara menatap." },
+        { q: "The delicious cake was baked by my mother. Mana yang jadi kata sifat ?", o: ["Cake", "Baked", "Delicious"], correct: 2, translation: "🌐 Kue yang lezat dipanggang oleh ibuku. Mana yang jadi kata sifat?", explanation: "'Delicious' adalah adjective (kata sifat) yang menerangkan noun 'cake'." },
+        { q: "What is an adjective for someone who talks a lot?", o: ["Quiet", "Talkative", "Shy", "Reserved"], correct: 1, translation: "🌐 Apa kata sifat untuk seseorang yang banyak bicara?", explanation: "'Talkative' berarti suka berbicara atau banyak bicara." },
+        { q: "Which adjective describes someone who is always honest?", o: ["Lazy", "Rude", "Truthful", "Dishonest"], correct: 2, translation: "🌐 Kata sifat mana yang menggambarkan seseorang yang selalu jujur?", explanation: "'Truthful' berarti jujur atau selalu mengatakan kebenaran." },
+        { q: "What is the opposite of \"brave\"?", o: ["Courage", "Wise", "Confident", "Coward"], correct: 3, translation: "🌐 Apa lawan kata dari 'berani'?", explanation: "'Coward' berarti pengecut, lawan dari brave (berani)." },
+        { q: "We used to have lunch on this _________ every day.", o: ["Round black wooden table", "Wooden black round table", "Black round wooden table"], correct: 2, translation: "🌐 Kami biasa makan siang di meja kayu bundar hitam ini setiap hari.", explanation: "Order of adjectives: Opinion → Shape → Material → Noun. Black (opinion), Round (shape), Wooden (material), Table (noun)." },
+        { q: "The house is _________", o: ["White and large", "Large and white", "Large White", "And White Large"], correct: 1, translation: "🌐 Rumah itu besar dan putih", explanation: "Setelah verb 'is', adjective bisa menggunakan urutan 'Large and white' (ukuran dulu baru warna)." },
+        { q: "He is wearing _______", o: ["a leather black jacket", "a black leather jacket", "a Jacket Black Leather", "a Jacket leather Black"], correct: 1, translation: "🌐 Dia sedang memakai jaket kulit hitam", explanation: "Order of adjectives: Opinion (black) → Material (leather) → Noun (jacket)." },
+        { q: "Please put that marbles into ________ box", o: ["little old round red", "little old red round", "round little old red"], correct: 0, translation: "🌐 Tolong masukkan kelereng itu ke dalam kotak merah bulat tua kecil", explanation: "Order of adjectives: Size (little) → Age (old) → Shape (round) → Color (red) → Noun (box)." },
+        { q: "She is a __________ supermodel", o: ["Brazillian beautifull slim", "slim beautiful Brazillian", "Beautifull slim brazillian"], correct: 1, translation: "🌐 Dia adalah supermodel langsing cantik asal Brasil", explanation: "Order of adjectives: Opinion (beautiful) → Size (slim) → Origin (Brazilian) → Noun (supermodel)." },
+        { q: "He sat behind a ____________ desk", o: ["Big Brown wooden", "Wooden big brown", "Big Wooden Brown"], correct: 0, translation: "🌐 Dia duduk di belakang meja kayu cokelat besar", explanation: "Order of adjectives: Size (big) → Color (brown) → Material (wooden) → Noun (desk)." },
+        { q: "It's in the ___________ Container", o: ["Large blue metal", "metal blue large", "Blue Metal Large"], correct: 0, translation: "🌐 Itu ada di dalam wadah logam biru besar", explanation: "Order of adjectives: Size (large) → Color (blue) → Material (metal) → Noun (container)." },
+        { q: "I Received a ______________ as a gift", o: ["Chocolate Large box", "Chocolate box Large", "Large Chocolate Box"], correct: 2, translation: "🌐 Saya menerima kotak cokelat besar sebagai hadiah", explanation: "Order of adjectives: Size (large) → Material (chocolate) → Noun (box)." }
+    ];
+
+    // State aplikasi
+    let currentIndex = 0;
+    let userAnswers = new Array(questionsData.length).fill(null);
+    let answerStatus = new Array(questionsData.length).fill(false);
+    let answeredQuestions = new Array(questionsData.length).fill(false);
+    let score = 0;
+    
+    const totalQ = questionsData.length;
+    document.getElementById("totalQuestions").innerText = totalQ;
+    document.getElementById("totalDisplay").innerText = totalQ;
+    
+    const questionTextEl = document.getElementById("questionText");
+    const questionTranslationEl = document.getElementById("questionTranslation");
+    const optionsContainer = document.getElementById("optionsContainer");
+    const feedbackArea = document.getElementById("feedbackArea");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const scoreSpan = document.getElementById("scoreValue");
+    const resultAreaDiv = document.getElementById("resultArea");
+    const quizCardDiv = document.getElementById("quizCard");
+    
+    function recalcScore() {
+        let newScore = 0;
+        for (let i = 0; i < totalQ; i++) {
+            if (answerStatus[i] === true) newScore++;
+        }
+        score = newScore;
+        scoreSpan.innerText = score;
+    }
+    
+    function updateNavButtons() {
+        prevBtn.disabled = (currentIndex === 0);
+        if (currentIndex === totalQ - 1) {
+            nextBtn.innerHTML = '<i class="fas fa-check-circle"></i> Lihat Hasil';
+        } else {
+            nextBtn.innerHTML = '<i class="fas fa-arrow-right"></i> Selanjutnya';
+        }
+        
+        if (!answeredQuestions[currentIndex]) {
+            nextBtn.disabled = true;
+        } else {
+            nextBtn.disabled = false;
+        }
+    }
+    
+    function renderFeedbackForCurrent() {
+        const idx = currentIndex;
+        const selected = userAnswers[idx];
+        const isAnswered = answeredQuestions[idx];
+        const isCorrect = answerStatus[idx];
+        const question = questionsData[idx];
+        
+        if (!isAnswered || selected === null) {
+            feedbackArea.className = "feedback-area feedback-neutral";
+            feedbackArea.innerHTML = `<div class="feedback-text"><i class="fas fa-lightbulb"></i> Pilih salah satu jawaban untuk melihat pembahasan & kunci.</div>`;
+            return;
+        }
+        
+        const selectedText = question.o[selected];
+        const correctText = question.o[question.correct];
+        const explanation = question.explanation;
+        
+        if (isCorrect) {
+            feedbackArea.className = "feedback-area feedback-correct";
+            feedbackArea.innerHTML = `
+                <div class="feedback-text">
+                    <i class="fas fa-check-circle" style="color:#2b9348; font-size:1.2rem;"></i>
+                    <strong>✅ Jawaban Benar!</strong> &nbsp; Pilihanmu: "${selectedText}" 
+                </div>
+                <div style="margin-top: 8px; font-size:0.9rem;">📘 <strong>Kunci & Pembahasan:</strong> ${explanation} (Jawaban benar: <strong>${correctText}</strong>)</div>
+            `;
+        } else {
+            feedbackArea.className = "feedback-area feedback-wrong";
+            feedbackArea.innerHTML = `
+                <div class="feedback-text">
+                    <i class="fas fa-times-circle" style="color:#e63946; font-size:1.2rem;"></i>
+                    <strong>❌ Jawaban Salah</strong> &nbsp; Kamu menjawab: "${selectedText}"
+                </div>
+                <div style="margin-top: 8px; font-size:0.9rem;">📘 <strong>Kunci & Pembahasan:</strong> ${explanation} (Jawaban benar: <strong>${correctText}</strong>)</div>
+            `;
+        }
+    }
+    
+    function renderCurrentQuestion() {
+        const qData = questionsData[currentIndex];
+        questionTextEl.innerText = qData.q;
+        questionTranslationEl.innerHTML = `<i class="fas fa-globe-asia"></i> ${qData.translation}`;
+        const selectedIdx = userAnswers[currentIndex];
+        const isAnsweredLocal = answeredQuestions[currentIndex];
+        
+        let optionsHtml = '';
+        const letters = ['A', 'B', 'C', 'D'];
+        qData.o.forEach((opt, idx) => {
+            let additionalClass = '';
+            if (isAnsweredLocal && selectedIdx === idx) {
+                additionalClass = 'style="background: #E9DFFF; border-color: #9B6BFF; box-shadow: 0 2px 8px rgba(155,107,255,0.2);"';
+            }
+            optionsHtml += `
+                <div class="option-btn" data-opt-index="${idx}" ${additionalClass}>
+                    <span class="prefix">${letters[idx]}</span>
+                    <span style="flex:1;">${opt}</span>
+                </div>
+            `;
+        });
+        optionsContainer.innerHTML = optionsHtml;
+        
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const optIndex = parseInt(btn.dataset.optIndex);
+                handleAnswer(optIndex);
+            });
+        });
+        
+        renderFeedbackForCurrent();
+        updateNavButtons();
+        document.getElementById("currentIdxDisplay").innerText = currentIndex + 1;
+    }
+    
+    function handleAnswer(selectedIndex) {
+        const currentQ = questionsData[currentIndex];
+        const isCorrectNow = (selectedIndex === currentQ.correct);
+        const wasAlreadyAnswered = answeredQuestions[currentIndex];
+        
+        userAnswers[currentIndex] = selectedIndex;
+        answeredQuestions[currentIndex] = true;
+        const oldStatus = answerStatus[currentIndex];
+        answerStatus[currentIndex] = isCorrectNow;
+        
+        if (oldStatus !== isCorrectNow) {
+            recalcScore();
+        } else if (!wasAlreadyAnswered && isCorrectNow) {
+            recalcScore();
+        } else if (!wasAlreadyAnswered && !isCorrectNow) {
+            recalcScore();
+        } else if (wasAlreadyAnswered && oldStatus !== isCorrectNow) {
+            recalcScore();
+        } else {
+            recalcScore();
+        }
+        
+        renderCurrentQuestion();
+        updateNavButtons();
+    }
+    
+    function goNext() {
+        if (currentIndex < totalQ - 1) {
+            currentIndex++;
+            renderCurrentQuestion();
+            updateNavButtons();
+        } else {
+            if (answeredQuestions.every(v => v === true)) {
+                showFinalResult();
+            } else {
+                alert(`⚠️ Anda belum menjawab semua soal! Selesaikan dulu ${totalQ - answeredQuestions.filter(v=>v===true).length} soal tersisa.`);
+            }
+        }
+    }
+    
+    function goPrev() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            renderCurrentQuestion();
+            updateNavButtons();
+        }
+    }
+    
+    function analyzeWeakness() {
+        let categories = {
+            "Adjective vs Adverb": [],
+            "Order of Adjectives (Urutan Kata Sifat)": [],
+            "Adjective Vocabulary": [],
+            "Comparative & Superlative": [],
+            "Adjective Placement": []
+        };
+        
+        for (let i = 0; i < totalQ; i++) {
+            const isCorrect = answerStatus[i];
+            const qText = questionsData[i].q;
+            let category = "";
+            
+            if (qText.includes("Injured") || qText.includes("behaved") || qText.includes("upset") || qText.includes("dressed") || qText.includes("looked at") || qText.includes("very") || qText.includes("wearing")) {
+                category = "Adjective vs Adverb";
+            } else if (qText.includes("round black wooden") || qText.includes("black leather") || qText.includes("little old round") || qText.includes("slim beautiful") || qText.includes("Large blue metal") || qText.includes("Large Chocolate")) {
+                category = "Order of Adjectives (Urutan Kata Sifat)";
+            } else if (qText.includes("talks a lot") || qText.includes("honest") || qText.includes("brave") || qText.includes("opposite")) {
+                category = "Adjective Vocabulary";
+            } else if (qText.includes("taller") || qText.includes("tallest")) {
+                category = "Comparative & Superlative";
+            } else {
+                category = "Adjective Placement";
+            }
+            
+            if (!isCorrect) {
+                if (!categories[category]) categories[category] = [];
+                categories[category].push(i+1);
+            }
+        }
+        
+        let weaknesses = [];
+        for (let [cat, arr] of Object.entries(categories)) {
+            if (arr && arr.length > 0) {
+                weaknesses.push({ cat, count: arr.length, soal: arr });
+            }
+        }
+        return weaknesses;
+    }
+    
+    function showFinalResult() {
+        quizCardDiv.style.display = "none";
+        document.querySelector(".score-panel").style.display = "none";
+        resultAreaDiv.style.display = "block";
+        
+        const percentage = (score / totalQ) * 100;
+        let gradeText = "";
+        if (percentage >= 85) gradeText = "🏆 Excellent! Adjective & Adverb Master!";
+        else if (percentage >= 70) gradeText = "🎉 Good job, tingkatkan lagi pemahaman adjective vs adverb!";
+        else if (percentage >= 50) gradeText = "📚 Perlu belajar lebih giat tentang penggunaan adjective dan adverb.";
+        else gradeText = "⚠️ Masih banyak kelemahan, pelajari ulang materi adjective dan adverb.";
+        
+        const weaknesses = analyzeWeakness();
+        let weakHtml = `<div style="margin-top: 16px;"><strong><i class="fas fa-chart-line"></i> Analisis Kelemahan:</strong><br/>`;
+        if (weaknesses.length === 0) {
+            weakHtml += `<span class="weakness-tag"><i class="fas fa-check-circle"></i> Hebat! Tidak ada kelemahan signifikan!</span>`;
+        } else {
+            weakHtml += `<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">`;
+            weaknesses.forEach(w => {
+                weakHtml += `<span class="weakness-tag"><i class="fas fa-exclamation-triangle"></i> ${w.cat} (salah di ${w.soal.length} soal: nomor ${w.soal.join(", ")})</span>`;
+            });
+            weakHtml += `</div><p style="margin-top: 12px; font-size: 0.85rem;">✨ Fokus ulang pada materi di atas untuk meningkatkan skor!</p>`;
+        }
+        
+        resultAreaDiv.innerHTML = `
+            <div style="text-align: center;">
+                <i class="fas fa-chalkboard-user" style="font-size: 3rem; color:#8B5CF6;"></i>
+                <h2 style="margin: 10px 0 5px;">Hasil Evaluasi Grammar</h2>
+                <div style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(145deg,#7C3AED,#A78BFA); -webkit-background-clip:text; background-clip:text; color:transparent;">${score}/${totalQ}</div>
+                <div style="background:#ede8ff; display:inline-block; padding:5px 18px; border-radius:40px; margin-top:8px;">${gradeText}</div>
+                <div style="margin: 20px auto; max-width: 200px;">
+                    <canvas id="scoreChart" width="200" height="200"></canvas>
+                </div>
+                ${weakHtml}
+                <button id="restartQuizBtn" class="nav-btn nav-btn-primary" style="margin-top: 25px; background: #5a2d9c;"><i class="fas fa-sync-alt"></i> Ulangi Kuis</button>
+            </div>
+        `;
+        
+        const ctx = document.getElementById('scoreChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Benar', 'Salah'],
+                datasets: [{
+                    data: [score, totalQ - score],
+                    backgroundColor: ['#9B6BFF', '#F0E6FF'],
+                    borderWidth: 0,
+                    cutout: '65%'
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'bottom' } } }
+        });
+        
+        document.getElementById("restartQuizBtn").addEventListener("click", () => {
+            userAnswers.fill(null);
+            answerStatus.fill(false);
+            answeredQuestions.fill(false);
+            currentIndex = 0;
+            score = 0;
+            recalcScore();
+            quizCardDiv.style.display = "block";
+            document.querySelector(".score-panel").style.display = "flex";
+            resultAreaDiv.style.display = "none";
+            renderCurrentQuestion();
+            updateNavButtons();
+        });
+    }
+    
+    prevBtn.addEventListener("click", goPrev);
+    nextBtn.addEventListener("click", goNext);
+    
+    recalcScore();
+    renderCurrentQuestion();
 </script>
-
 </body>
 </html>
